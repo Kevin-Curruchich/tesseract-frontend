@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TodoForm from "./TodoForm";
 import {
   RiCloseCircleLine,
@@ -32,9 +32,10 @@ const Todo = ({
   }
 
   return todos.map((todo, index) => (
+    // </div>
     // <div>
     <div
-      className={todo.isComplete ? "todo-row complete" : "todo-row"}
+      className={todo.is_done ? "todo-row complete" : "todo-row"}
       key={index}
     >
       <div className="description">
@@ -43,7 +44,7 @@ const Todo = ({
           onClick={() => completeTodo(todo.id)}
           className="todo"
         >
-          {todo.text}
+          {todo.title}
         </div>
         <div className="icons">
           <RiCheckboxCircleLine
@@ -62,8 +63,9 @@ const Todo = ({
             onClick={() =>
               setEdit({
                 id: todo.id,
-                value: todo.text,
+                value: todo.title,
                 description: todo.description,
+                is_done: todo.is_done,
               })
             }
             className="edit-icon"
@@ -76,7 +78,6 @@ const Todo = ({
         </div>
       )}
     </div>
-    // </div>
   ));
 };
 
