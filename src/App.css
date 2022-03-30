@@ -8,12 +8,17 @@
 
 body {
   min-height: 100vh;
+  padding: 5% 0 5% 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   background: linear-gradient(
     0deg,
     rgba(48, 16, 255, 1) 0%,
     rgba(100, 115, 255, 1) 100%
   );
 }
+
 .todo-app {
   display: flex;
   flex-direction: column;
@@ -22,16 +27,25 @@ body {
   min-height: 400px;
   background: #161a2b;
   text-align: center;
-  margin: 50px auto;
   border-radius: 25px;
-  padding: 0 50px;
-  padding-bottom: 32px;
+  padding: 50px;
 }
 
 h1 {
-  margin: 32px 0;
+  margin-bottom: 25px;
   color: #fff;
   font-size: 24px;
+}
+
+h2 {
+  color: rgba(255, 255, 2555, 0.5);
+  text-align: left;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+p {
+  color: rgba(255, 255, 2555, 0.8);
 }
 
 .complete {
@@ -40,8 +54,24 @@ h1 {
 }
 
 .todo-form {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px;
+  row-gap: 6px;
   width: 100%;
-  margin-bottom: 32px;
+  margin-bottom: 20px;
+}
+
+.todo-form.update {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.TodoList--header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .todo-input {
@@ -55,7 +85,6 @@ h1 {
 }
 
 .todo-description {
-  margin-top: 10px;
   width: 100%;
   min-width: 100%;
   max-width: 100%;
@@ -67,22 +96,22 @@ h1 {
 }
 
 .todo-button {
-  /* padding: 16px; */
-  height: fit-content;
-  width: fit-content;
+  width: 14%;
+  font-size: 22px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   outline: none;
-  margin: 0 2px;
-  padding: 16px 22px;
   background: linear-gradient(
     90deg,
     rgba(93, 12, 255, 1) 0%,
     rgba(155, 0, 250, 1) 100%
   );
   color: #fff;
-  text-transform: capitalize;
+}
+
+.todo-button.update {
+  min-height: 50px;
 }
 
 .todo-input.edit {
@@ -95,6 +124,20 @@ h1 {
     rgba(20, 159, 255, 1) 0%,
     rgba(17, 122, 255, 1) 100%
   );
+}
+
+.todo-handler:hover {
+  transform: scale(1.1);
+  transition: 800ms;
+}
+
+.todo-handler:active {
+  transform: scale(1);
+  transition: 0;
+}
+
+.todo-button:active {
+  transform: scale(0.98);
 }
 
 .todo-container {
@@ -146,6 +189,7 @@ h1 {
 
 .icons {
   display: flex;
+  justify-content: center;
   align-items: center;
   font-size: 24px;
   cursor: pointer;
@@ -169,6 +213,12 @@ h1 {
   text-align: left;
 }
 
-.description {
+.header {
+  align-items: center;
   display: flex;
+}
+
+.description {
+  margin-top: 5px;
+  text-align: left;
 }

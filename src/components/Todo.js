@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import TodoForm from "./TodoForm";
 import {
   RiCloseCircleLine,
   RiCheckboxCircleLine,
   RiArrowDownCircleLine,
+  RiDeleteBin5Line,
 } from "react-icons/ri";
 import { TiEdit } from "react-icons/ti";
 
@@ -13,6 +14,7 @@ const Todo = ({
   removeTodo,
   updateTodo,
   showDescription,
+  setEditTodo,
 }) => {
   const [edit, setEdit] = useState({
     id: null,
@@ -32,13 +34,11 @@ const Todo = ({
   }
 
   return todos.map((todo, index) => (
-    // </div>
-    // <div>
     <div
       className={todo.is_done ? "todo-row complete" : "todo-row"}
       key={index}
     >
-      <div className="description">
+      <div className="header">
         <div
           key={todo.id}
           onClick={() => completeTodo(todo.id)}
@@ -47,28 +47,29 @@ const Todo = ({
           {todo.title}
         </div>
         <div className="icons">
-          <RiCheckboxCircleLine
-            onClick={() => completeTodo(todo.id)}
-            className="delete-icon"
-          />
           <RiArrowDownCircleLine
             onClick={() => showDescription(todo.id)}
-            className="delete-icon"
-          />
-          <RiCloseCircleLine
-            onClick={() => removeTodo(todo.id)}
-            className="delete-icon"
+            className="delete-icon todo-handler"
           />
           <TiEdit
-            onClick={() =>
+            onClick={() => {
               setEdit({
                 id: todo.id,
                 value: todo.title,
                 description: todo.description,
                 is_done: todo.is_done,
-              })
-            }
-            className="edit-icon"
+              });
+              setEditTodo((prev) => (prev === "My Todos" ? "Editing" : prev));
+            }}
+            className="edit-icon todo-handler"
+          />
+          <RiDeleteBin5Line
+            onClick={() => removeTodo(todo.id)}
+            className="delete-icon todo-handler"
+          />
+          <RiCheckboxCircleLine
+            onClick={() => completeTodo(todo.id)}
+            className="delete-icon todo-handler"
           />
         </div>
       </div>

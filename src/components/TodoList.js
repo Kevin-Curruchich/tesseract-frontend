@@ -8,18 +8,19 @@ const apiUrl = "http://localhost:8080/to-dos/";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
+  const [editTodo, setEditTodo] = useState("My Todos");
 
   useEffect(() => {
-    axios.get(apiUrl).then((res) => {
-      setTodos(res.data.todos);
-    });
+    getTodos();
   }, []);
 
-  useEffect(() => {
-    axios.get(apiUrl).then((res) => {
+  //METHODS
+
+  const getTodos = async () => {
+    await axios.get(apiUrl).then((res) => {
       setTodos(res.data.todos);
     });
-  }, [setTodos]);
+  };
 
   const addTodo = (todo) => {
     if (!todo.title || /^\s*$/.test(todo.title)) {
@@ -27,10 +28,8 @@ function TodoList() {
     }
 
     try {
-      console.log(todo);
       axios.post(apiUrl, todo).then((res) => {
-        const newTodos = [...todos, todo];
-        setTodos(newTodos);
+        getTodos();
       });
     } catch (error) {
       console.error(error);
@@ -48,11 +47,10 @@ function TodoList() {
   };
 
   const updateTodo = (todoId, newValue) => {
-    console.log(newValue);
     if (!newValue.title || /^\s*$/.test(newValue.title)) {
       return;
     }
-
+    setEditTodo((prev) => (prev === "Editing" ? "My Todos" : prev));
     try {
       axios({
         method: "patch",
@@ -61,10 +59,9 @@ function TodoList() {
           id: `${todoId}`,
         },
         data: newValue,
+      }).then(() => {
+        getTodos();
       });
-      setTodos((prev) =>
-        prev.map((item) => (item.id === todoId ? newValue : item))
-      );
     } catch (error) {
       console.error(error);
     }
@@ -78,20 +75,17 @@ function TodoList() {
         params: {
           id: `${id}`,
         },
+      }).then(() => {
+        getTodos();
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-
-    const removedArr = [...todos].filter((todo) => todo.id !== id);
-
-    setTodos(removedArr);
   };
 
   const completeTodo = (id) => {
     try {
       const updateTodo = todos.find((todo) => todo.id === id);
-
       axios({
         method: "patch",
         url: `${apiUrl}`,
@@ -103,11 +97,9 @@ function TodoList() {
           description: `${updateTodo.description}`,
           isDone: `${updateTodo.is_done === 1 ? 0 : 1}`,
         },
+      }).then(() => {
+        getTodos();
       });
-
-      setTodos((prev) =>
-        prev.map((todo) => (todo.id === id ? updateTodo : todo))
-      );
     } catch (error) {
       console.error(error);
     }
@@ -117,12 +109,17 @@ function TodoList() {
     <>
       <h1>What's the Plan for Today?</h1>
       <TodoForm onSubmit={addTodo} />
+      <div className="TodoList--header">
+        <h2>{editTodo}</h2>
+        <p>{todos.filter((todo) => !todo.is_done).length} Left Todos</p>
+      </div>
       <Todo
         todos={todos}
         completeTodo={completeTodo}
         removeTodo={removeTodo}
         updateTodo={updateTodo}
         showDescription={showDescription}
+        setEditTodo={setEditTodo}
       />
     </>
   );

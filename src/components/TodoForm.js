@@ -1,7 +1,7 @@
 // import React, { useState, useEffect, useRef } from "react";
 import React, { useState, useRef } from "react";
-import { BsArrowDown, BsPlusCircleFill } from "react-icons/bs";
-import { RiCheckboxCircleLine } from "react-icons/ri";
+import { BsPlusCircleFill } from "react-icons/bs";
+import { RiCheckboxCircleLine, RiArrowDownCircleLine } from "react-icons/ri";
 
 function TodoForm(props) {
   const [input, setInput] = useState(props.edit ? props.edit.value : "");
@@ -38,13 +38,14 @@ function TodoForm(props) {
     });
     setInput("");
     setDescription("");
+    setShowDescription(false);
     setIsDone(0);
   };
 
   return (
     <form onSubmit={handleSubmit} className="todo-form">
       {props.edit ? (
-        <div className="todo-form--update">
+        <div className="todo-form update">
           <input
             placeholder="Update your item"
             value={input}
@@ -61,7 +62,7 @@ function TodoForm(props) {
             className="todo-input todo-description"
           />
 
-          <button onClick={handleSubmit} className="todo-button">
+          <button onClick={handleSubmit} className="todo-button update">
             <RiCheckboxCircleLine />
           </button>
         </div>
@@ -76,7 +77,7 @@ function TodoForm(props) {
             ref={inputRef}
           />
           <button onClick={handleDescription} className="todo-button edit">
-            <BsArrowDown />
+            <RiArrowDownCircleLine />
           </button>
           <button onClick={handleSubmit} className="todo-button">
             <BsPlusCircleFill />
