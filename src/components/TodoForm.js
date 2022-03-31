@@ -1,4 +1,3 @@
-// import React, { useState, useEffect, useRef } from "react";
 import React, { useState, useRef } from "react";
 import { BsPlusCircleFill } from "react-icons/bs";
 import { RiCheckboxCircleLine, RiArrowDownCircleLine } from "react-icons/ri";
@@ -36,6 +35,7 @@ function TodoForm(props) {
       isDone: is_done,
       showDescription: false,
     });
+
     setInput("");
     setDescription("");
     setShowDescription(false);
